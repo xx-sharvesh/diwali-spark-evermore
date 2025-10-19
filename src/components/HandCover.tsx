@@ -9,7 +9,7 @@ const HandCover = ({ onComplete }: HandCoverProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
-    }, 3500); // 3.5 seconds total (slide in + hold + slide out)
+    }, 10500); // 10.5 seconds total (slide in + hold + slide out)
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -25,7 +25,7 @@ const HandCover = ({ onComplete }: HandCoverProps) => {
           opacity: [0, 1, 1, 0],
         }}
         transition={{
-          duration: 3.5,
+          duration: 10.5,
           times: [0, 0.15, 0.85, 1],
           ease: "easeInOut",
         }}
@@ -42,7 +42,7 @@ const HandCover = ({ onComplete }: HandCoverProps) => {
           opacity: [0, 0.3, 0.3, 0],
         }}
         transition={{
-          duration: 3.5,
+          duration: 10.5,
           times: [0, 0.15, 0.85, 1],
         }}
         style={{
@@ -59,7 +59,7 @@ const HandCover = ({ onComplete }: HandCoverProps) => {
           opacity: [0, 0, 1, 1, 0],
         }}
         transition={{
-          duration: 3.5,
+          duration: 10.5,
           times: [0, 0.15, 0.25, 0.75, 0.85],
         }}
       >

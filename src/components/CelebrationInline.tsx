@@ -43,17 +43,17 @@ const CelebrationInline = ({ onComplete }: CelebrationInlineProps) => {
     const timer1 = setTimeout(() => {
       setShowYay(false);
       setShowSubtext(true);
-    }, 1200);
+    }, 3600);
 
     // Show surprise message
     const timer2 = setTimeout(() => {
       setShowSurprise(true);
-    }, 2000);
+    }, 6000);
 
     // Complete and trigger hand cover
     const timer3 = setTimeout(() => {
       onComplete();
-    }, 3200);
+    }, 9600);
 
     return () => {
       clearTimeout(timer1);
