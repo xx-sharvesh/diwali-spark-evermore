@@ -9,7 +9,7 @@ interface ProposalSectionProps {
 const PRE_PROPOSAL = `Ammu,
 
 Everything I've said is true every word, every feeling. And still, there's more waiting in every tomorrow I see with you. I want to keep choosing you, again and again in the quiet mornings and in the stormy nights, in laughter and in silence. I want to be the home you lean on, the reason your days feel safer and brighter. I want to build little festivals for you not just every year, but every month, every single day.
-So here I am, with all that I am, and all that I can give…`;
+So here I am, with all that I am, and all that I can give...`;
 
 const ProposalSection = ({ onYes }: ProposalSectionProps) => {
   const [showPreProposal, setShowPreProposal] = useState(false);
@@ -34,9 +34,9 @@ const ProposalSection = ({ onYes }: ProposalSectionProps) => {
   }, []);
 
   const handleThinkHover = () => {
-    if (escapeCount < 5) {
-      const randomX = (Math.random() - 0.5) * 200;
-      const randomY = (Math.random() - 0.5) * 100;
+    if (escapeCount < 8) {
+      const randomX = (Math.random() - 0.5) * 400;
+      const randomY = (Math.random() - 0.5) * 300;
       setThinkButtonPos({ x: randomX, y: randomY });
       setEscapeCount(escapeCount + 1);
     }
@@ -114,20 +114,21 @@ const ProposalSection = ({ onYes }: ProposalSectionProps) => {
           </motion.button>
 
           {/* Let me think button */}
-          <motion.button
-            onMouseEnter={handleThinkHover}
-            onFocus={handleThinkHover}
-            animate={{
-              x: thinkButtonPos.x,
-              y: thinkButtonPos.y,
-            }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="px-12 py-4 text-2xl font-script bg-[hsl(var(--secondary))] text-[hsl(var(--ink))] rounded-full shadow-lg border-2 border-[hsl(var(--gold))] hover:bg-[hsl(var(--parchment-dark))] transition-colors"
-            aria-label="Let me think"
-            style={{ position: escapeCount > 0 ? 'relative' : 'static' }}
-          >
-            Let me think... 🤔
-          </motion.button>
+          <div className="relative" style={{ minWidth: '250px', minHeight: '80px' }}>
+            <motion.button
+              onMouseEnter={handleThinkHover}
+              onFocus={handleThinkHover}
+              animate={{
+                x: thinkButtonPos.x,
+                y: thinkButtonPos.y,
+              }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 px-12 py-4 text-2xl font-script bg-[hsl(var(--secondary))] text-[hsl(var(--ink))] rounded-full shadow-lg border-2 border-[hsl(var(--gold))] hover:bg-[hsl(var(--parchment-dark))] transition-colors whitespace-nowrap"
+              aria-label="Let me think"
+            >
+              Let me think... 🤔
+            </motion.button>
+          </div>
         </motion.div>
       )}
     </div>

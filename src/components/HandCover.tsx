@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface HandCoverProps {
@@ -6,161 +6,68 @@ interface HandCoverProps {
 }
 
 const HandCover = ({ onComplete }: HandCoverProps) => {
-  const [isUncovering, setIsUncovering] = useState(false);
-
   useEffect(() => {
-    // Hold for 3 seconds then uncover
-    const holdTimer = setTimeout(() => {
-      setIsUncovering(true);
-    }, 3000);
-
-    // Complete after uncover animation
-    const completeTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       onComplete();
-    }, 3700); // 3000ms hold + 700ms uncover animation
+    }, 3500); // 3.5 seconds total (slide in + hold + slide out)
 
-    return () => {
-      clearTimeout(holdTimer);
-      clearTimeout(completeTimer);
-    };
+    return () => clearTimeout(timer);
   }, [onComplete]);
 
   return (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Hand SVG */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+      {/* Blindfold/cloth animation */}
       <motion.div
-        initial={{ y: "-100%" }}
-        animate={{ y: isUncovering ? "-100%" : "0%" }}
-        transition={{
-          duration: isUncovering ? 0.7 : 0.4,
-          ease: "easeOut",
+        className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--night-sky-deep))] via-gray-900 to-[hsl(var(--night-sky-deep))]"
+        initial={{ scaleY: 0, opacity: 0 }}
+        animate={{
+          scaleY: [0, 1, 1, 0],
+          opacity: [0, 1, 1, 0],
         }}
-        className="relative"
+        transition={{
+          duration: 3.5,
+          times: [0, 0.15, 0.85, 1],
+          ease: "easeInOut",
+        }}
+        style={{
+          transformOrigin: "center",
+        }}
+      />
+
+      {/* Soft fabric texture overlay */}
+      <motion.div
+        className="absolute inset-0 opacity-30"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.3, 0.3, 0],
+        }}
+        transition={{
+          duration: 3.5,
+          times: [0, 0.15, 0.85, 1],
+        }}
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)",
+        }}
+      />
+
+      {/* Center text during hold */}
+      <motion.div
+        className="relative z-10 text-center px-4"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0, 1, 1, 0],
+        }}
+        transition={{
+          duration: 3.5,
+          times: [0, 0.15, 0.25, 0.75, 0.85],
+        }}
       >
-        <svg
-          width="300"
-          height="400"
-          viewBox="0 0 300 400"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-2xl"
-        >
-          {/* Hand shape - stylized */}
-          <g>
-            {/* Palm */}
-            <ellipse
-              cx="150"
-              cy="250"
-              rx="90"
-              ry="120"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-            />
-            
-            {/* Thumb */}
-            <ellipse
-              cx="80"
-              cy="220"
-              rx="30"
-              ry="60"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-              transform="rotate(-20 80 220)"
-            />
-            
-            {/* Index finger */}
-            <rect
-              x="110"
-              y="100"
-              width="30"
-              height="100"
-              rx="15"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-            />
-            
-            {/* Middle finger */}
-            <rect
-              x="145"
-              y="80"
-              width="30"
-              height="120"
-              rx="15"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-            />
-            
-            {/* Ring finger */}
-            <rect
-              x="180"
-              y="100"
-              width="30"
-              height="100"
-              rx="15"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-            />
-            
-            {/* Pinky */}
-            <rect
-              x="210"
-              y="120"
-              width="25"
-              height="80"
-              rx="12"
-              fill="#F5D0C5"
-              stroke="#E0B0A0"
-              strokeWidth="2"
-            />
-
-            {/* Gentle breathing animation */}
-            {!isUncovering && (
-              <motion.circle
-                cx="150"
-                cy="250"
-                r="5"
-                fill="rgba(255, 255, 255, 0.3)"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            )}
-          </g>
-        </svg>
-
-        {/* Anticipation glow */}
-        {!isUncovering && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-radial from-[hsl(var(--gold))]/20 to-transparent rounded-full blur-xl"
-            animate={{
-              opacity: [0.3, 0.6, 0.3],
-              scale: [0.9, 1.1, 0.9],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        )}
+        <p className="text-2xl md:text-3xl font-script text-white/80">
+          Close your eyes... ✨
+        </p>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

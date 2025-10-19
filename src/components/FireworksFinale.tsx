@@ -6,15 +6,11 @@ import { Heart } from "lucide-react";
 
 const FireworksFinale = () => {
   const [showSilhouettes, setShowSilhouettes] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const [kissAnimation, setKissAnimation] = useState(false);
 
   useEffect(() => {
     // Show silhouettes after transition
     const timer1 = setTimeout(() => setShowSilhouettes(true), 400);
-    
-    // Show final message
-    const timer2 = setTimeout(() => setShowMessage(true), 2000);
 
     // Kiss animation loop
     const kissInterval = setInterval(() => {
@@ -24,7 +20,6 @@ const FireworksFinale = () => {
 
     return () => {
       clearTimeout(timer1);
-      clearTimeout(timer2);
       clearInterval(kissInterval);
     };
   }, []);
@@ -39,41 +34,71 @@ const FireworksFinale = () => {
           className="w-full h-full object-cover opacity-90"
         />
         
-        {/* Animated firework bursts */}
+        {/* Animated firework launches and bursts */}
         <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: '200px',
-                height: '200px',
-                left: `${Math.random() * 80 + 10}%`,
-                top: `${Math.random() * 60 + 10}%`,
-                background: `radial-gradient(circle, ${
-                  [
-                    'hsl(var(--firework-magenta))',
-                    'hsl(var(--firework-cyan))',
-                    'hsl(var(--firework-saffron))',
-                    'hsl(var(--firework-emerald))',
-                    'hsl(var(--firework-purple))',
-                    'hsl(var(--firework-hot-pink))',
-                  ][i % 6]
-                } 0%, transparent 70%)`,
-              }}
-              initial={{ scale: 0, opacity: 1 }}
-              animate={{
-                scale: [0, 1.5, 0],
-                opacity: [1, 0.8, 0],
-              }}
-              transition={{
-                duration: 2,
-                delay: i * 0.4,
-                repeat: Infinity,
-                repeatDelay: 4,
-              }}
-            />
-          ))}
+          {[...Array(12)].map((_, i) => {
+            const startX = Math.random() * 90 + 5;
+            const endX = startX + (Math.random() - 0.5) * 10;
+            const endY = Math.random() * 40 + 10;
+            const color = [
+              'hsl(var(--firework-magenta))',
+              'hsl(var(--firework-cyan))',
+              'hsl(var(--firework-saffron))',
+              'hsl(var(--firework-emerald))',
+              'hsl(var(--firework-purple))',
+              'hsl(var(--firework-hot-pink))',
+            ][i % 6];
+
+            return (
+              <div key={i}>
+                {/* Launch trail */}
+                <motion.div
+                  className="absolute w-1 h-8 rounded-full"
+                  style={{
+                    left: `${startX}%`,
+                    bottom: '0%',
+                    background: `linear-gradient(to top, ${color}, transparent)`,
+                  }}
+                  initial={{ bottom: '0%', opacity: 0 }}
+                  animate={{
+                    bottom: [`0%`, `${100 - endY}%`],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    delay: i * 0.6,
+                    repeat: Infinity,
+                    repeatDelay: 5,
+                    ease: "easeOut",
+                  }}
+                />
+                
+                {/* Burst */}
+                <motion.div
+                  className="absolute rounded-full"
+                  style={{
+                    width: '250px',
+                    height: '250px',
+                    left: `${endX}%`,
+                    top: `${endY}%`,
+                    background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{
+                    scale: [0, 1.8],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    delay: i * 0.6 + 1.2,
+                    repeat: Infinity,
+                    repeatDelay: 5,
+                    ease: "easeOut",
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -142,58 +167,7 @@ const FireworksFinale = () => {
         </motion.div>
       )}
 
-      {/* Final message overlay */}
-      {showMessage && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute top-1/4 left-1/2 transform -translate-x-1/2 text-center px-4 w-full max-w-2xl"
-        >
-          <motion.div
-            className="bg-black/40 backdrop-blur-md rounded-2xl p-8 border-2 border-[hsl(var(--gold))]"
-            animate={{
-              boxShadow: [
-                '0 0 20px hsl(var(--gold))',
-                '0 0 40px hsl(var(--gold))',
-                '0 0 20px hsl(var(--gold))',
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <h2 className="text-5xl md:text-6xl font-script text-white mb-4">
-              Happy Diwali, my love.
-            </h2>
-            <p className="text-2xl md:text-3xl font-body text-white/90 italic">
-              You are my brightest light in every festival, in every lifetime. 💖
-            </p>
-          </motion.div>
-        </motion.div>
-      )}
 
-      {/* Sparkle effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-white rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 2,
-              delay: Math.random() * 5,
-              repeat: Infinity,
-              repeatDelay: Math.random() * 3,
-            }}
-          />
-        ))}
-      </div>
     </div>
   );
 };

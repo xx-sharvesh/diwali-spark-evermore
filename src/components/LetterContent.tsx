@@ -5,7 +5,7 @@ interface LetterContentProps {
   onComplete: () => void;
 }
 
-const PART_ONE = `Diwali is a festival full of brightness and lights. During the days of Diwali, I used to be at my grandpa's place. Everyone gathers there to celebrate, all of us together. The entire thing—the lights, the happiness, and most of all, there will be gifts. There used to be prestige issues and small competitions over who would give a better gift to their loved ones. I always gave something mundane to one of my cousins or my brother when I was there, something really small—once in three years, or never. I always wondered what I would get my love if I had one in my "chinna vayasu" (childhood/young days). It was always a wonder, and I never found an accurate answer.`;
+const PART_ONE = `Diwali is a festival full of brightness and lights. During the days of Diwali, I used to be at my grandpa's place. Everyone gathers there to celebrate, all of us together. The entire thing the lights, the happiness, and most of all, there will be gifts. There used to be prestige issues and small competitions over who would give a better gift to their loved ones. I always gave something mundane to one of my cousins or my brother when I was there, something really small once in three years, or never. I always wondered what I would get my love if I had one in my "chinna vayasu" (childhood/young days). It was always a wonder, and I never found an accurate answer.`;
 
 const PART_TWO = `Now, I have you. I just want to say that I love you because every piece of you is so beautiful that I often find myself wondering what I did to deserve having such an incredible woman, the best ever who loves me. It feels like I give all my love, every part of me, and it still won't be enough because you deserve the world. You see yourself as an overthinker, but all I see is how deeply you care, how sensitive and loving you are, and that comes out in ways that are beautiful, baby. I have seen it; the world can go fuck itself for all I care.
 
@@ -31,24 +31,6 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (partOneComplete && partTwoRef.current) {
-      // Set up intersection observer for part two
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            setShowPartTwo(true);
-          }
-        },
-        { threshold: 0.3 }
-      );
-
-      observer.observe(partTwoRef.current);
-
-      return () => observer.disconnect();
-    }
-  }, [partOneComplete]);
 
   useEffect(() => {
     if (showPartOne) {
@@ -107,6 +89,25 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
               {paragraph}
             </motion.p>
           ))}
+        </motion.div>
+      )}
+
+      {/* Continue reading button */}
+      {partOneComplete && !showPartTwo && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center my-8"
+        >
+          <motion.button
+            onClick={() => setShowPartTwo(true)}
+            className="px-8 py-3 text-xl font-script bg-gradient-to-r from-[hsl(var(--gold))] to-[hsl(var(--romantic-red))] text-white rounded-full shadow-lg hover:scale-105 transition-transform"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Continue Reading... 💌
+          </motion.button>
         </motion.div>
       )}
 
