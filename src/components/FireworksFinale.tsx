@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import coupleWatching from "@/assets/couple-watching-transparent.png";
 
 const FireworksFinale = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -272,6 +273,15 @@ const FireworksFinale = () => {
       }}
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
+      
+      {/* Couple watching fireworks */}
+      <div className="absolute bottom-0 right-8 z-10">
+        <img 
+          src={coupleWatching} 
+          alt="Couple watching fireworks together" 
+          className="h-64 w-auto"
+        />
+      </div>
       
       <style>{`
         @keyframes twinkle {
