@@ -17,10 +17,18 @@ Now that I think of it, I still can't think of a gift. But this time, it's not j
 
 So, here I go. I came up with something comparatively smaller and, well, digital to give you, baby.`;
 
+const PART_THREE = `Ammu,
+
+Everything I've said is true every word, every feeling. And still, there's more waiting in every tomorrow I see with you. I want to keep choosing you, again and again in the quiet mornings and in the stormy nights, in laughter and in silence. I want to be the home you lean on, the reason your days feel safer and brighter. I want to build little festivals for you not just every year, but every month, every single day.
+
+So here I am, with all that I am, and all that I can give...`;
+
 const LetterContent = ({ onComplete }: LetterContentProps) => {
   const [showPartOne, setShowPartOne] = useState(false);
   const [showPartTwo, setShowPartTwo] = useState(false);
+  const [showPartThree, setShowPartThree] = useState(false);
   const [partOneComplete, setPartOneComplete] = useState(false);
+  const [partTwoComplete, setPartTwoComplete] = useState(false);
   const partTwoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,13 +52,23 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
 
   useEffect(() => {
     if (showPartTwo) {
-      // Trigger proposal after part two completes
+      // Mark part two complete after animation
       const timer = setTimeout(() => {
-        onComplete();
-      }, 8000);
+        setPartTwoComplete(true);
+      }, 6000);
       return () => clearTimeout(timer);
     }
-  }, [showPartTwo, onComplete]);
+  }, [showPartTwo]);
+
+  useEffect(() => {
+    if (showPartThree) {
+      // Trigger proposal after part three completes
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPartThree, onComplete]);
 
   return (
     <motion.div
@@ -92,7 +110,7 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
         </motion.div>
       )}
 
-      {/* Continue reading button */}
+      {/* Next button for Part 2 */}
       {partOneComplete && !showPartTwo && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -102,11 +120,11 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
         >
           <motion.button
             onClick={() => setShowPartTwo(true)}
-            className="px-8 py-3 text-xl font-script bg-gradient-to-r from-[hsl(var(--gold))] to-[hsl(var(--romantic-red))] text-white rounded-full shadow-lg hover:scale-105 transition-transform"
+            className="px-6 py-2 text-base font-script bg-[hsl(var(--gold))] text-white rounded-full shadow-md hover:shadow-lg transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Continue Reading... 💌
+            Next
           </motion.button>
         </motion.div>
       )}
@@ -135,6 +153,48 @@ const LetterContent = ({ onComplete }: LetterContentProps) => {
           </motion.div>
         )}
       </div>
+
+      {/* Next button for Part 3 */}
+      {partTwoComplete && !showPartThree && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center my-8"
+        >
+          <motion.button
+            onClick={() => setShowPartThree(true)}
+            className="px-6 py-2 text-base font-script bg-[hsl(var(--gold))] text-white rounded-full shadow-md hover:shadow-lg transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Next
+          </motion.button>
+        </motion.div>
+      )}
+
+      {/* Part Three */}
+      {showPartThree && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="font-body text-[hsl(var(--ink))] text-lg leading-relaxed tracking-wide"
+          style={{ letterSpacing: '0.1px' }}
+        >
+          {PART_THREE.split('\n\n').map((paragraph, idx) => (
+            <motion.p
+              key={idx}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.4, duration: 0.4 }}
+              className="mb-6"
+            >
+              {paragraph}
+            </motion.p>
+          ))}
+        </motion.div>
+      )}
 
       {/* Decorative footer */}
       <div className="mt-12 pt-6 border-t-2 border-[hsl(var(--gold))] flex justify-center gap-2">

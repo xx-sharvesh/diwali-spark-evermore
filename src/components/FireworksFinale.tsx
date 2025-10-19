@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import fireworksBg from "@/assets/fireworks-bg.jpg";
 import coupleSilhouette from "@/assets/couple-silhouette.png";
 import { Heart } from "lucide-react";
 
@@ -26,80 +25,104 @@ const FireworksFinale = () => {
 
   return (
     <div className="fixed inset-0 bg-[hsl(var(--night-sky-deep))] overflow-hidden">
-      {/* Fireworks background with animation overlay */}
+      {/* Animated firework launches and bursts */}
       <div className="absolute inset-0">
-        <img
-          src={fireworksBg}
-          alt="Colorful Diwali fireworks"
-          className="w-full h-full object-cover opacity-90"
-        />
-        
-        {/* Animated firework launches and bursts */}
-        <div className="absolute inset-0">
-          {[...Array(12)].map((_, i) => {
-            const startX = Math.random() * 90 + 5;
-            const endX = startX + (Math.random() - 0.5) * 10;
-            const endY = Math.random() * 40 + 10;
-            const color = [
-              'hsl(var(--firework-magenta))',
-              'hsl(var(--firework-cyan))',
-              'hsl(var(--firework-saffron))',
-              'hsl(var(--firework-emerald))',
-              'hsl(var(--firework-purple))',
-              'hsl(var(--firework-hot-pink))',
-            ][i % 6];
+        {[...Array(15)].map((_, i) => {
+          const startX = Math.random() * 80 + 10;
+          const endX = startX + (Math.random() - 0.5) * 15;
+          const endY = Math.random() * 50 + 10;
+          const color = [
+            'hsl(var(--firework-magenta))',
+            'hsl(var(--firework-cyan))',
+            'hsl(var(--firework-saffron))',
+            'hsl(var(--firework-emerald))',
+            'hsl(var(--firework-purple))',
+            'hsl(var(--firework-hot-pink))',
+          ][i % 6];
 
-            return (
-              <div key={i}>
-                {/* Launch trail */}
-                <motion.div
-                  className="absolute w-1 h-8 rounded-full"
-                  style={{
-                    left: `${startX}%`,
-                    bottom: '0%',
-                    background: `linear-gradient(to top, ${color}, transparent)`,
-                  }}
-                  initial={{ bottom: '0%', opacity: 0 }}
-                  animate={{
-                    bottom: [`0%`, `${100 - endY}%`],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 1.2,
-                    delay: i * 0.6,
-                    repeat: Infinity,
-                    repeatDelay: 5,
-                    ease: "easeOut",
-                  }}
-                />
-                
-                {/* Burst */}
-                <motion.div
-                  className="absolute rounded-full"
-                  style={{
-                    width: '250px',
-                    height: '250px',
-                    left: `${endX}%`,
-                    top: `${endY}%`,
-                    background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-                  }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{
-                    scale: [0, 1.8],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    delay: i * 0.6 + 1.2,
-                    repeat: Infinity,
-                    repeatDelay: 5,
-                    ease: "easeOut",
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
+          return (
+            <div key={i}>
+              {/* Launch trail */}
+              <motion.div
+                className="absolute w-1.5 h-12 rounded-full blur-sm"
+                style={{
+                  left: `${startX}%`,
+                  bottom: '0%',
+                  background: `linear-gradient(to top, ${color}, transparent)`,
+                }}
+                initial={{ bottom: '0%', opacity: 0 }}
+                animate={{
+                  bottom: [`0%`, `${100 - endY}%`],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 1.5,
+                  delay: i * 0.8,
+                  repeat: Infinity,
+                  repeatDelay: 9,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              />
+              
+              {/* Main burst */}
+              <motion.div
+                className="absolute rounded-full blur-md"
+                style={{
+                  width: '300px',
+                  height: '300px',
+                  left: `${endX}%`,
+                  top: `${endY}%`,
+                  background: `radial-gradient(circle, ${color} 0%, ${color}40 30%, transparent 70%)`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{
+                  scale: [0, 2.2, 2.5],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  delay: i * 0.8 + 1.5,
+                  repeat: Infinity,
+                  repeatDelay: 9,
+                  ease: "easeOut",
+                }}
+              />
+
+              {/* Sparkle particles */}
+              {[...Array(8)].map((_, j) => {
+                const angle = (j / 8) * Math.PI * 2;
+                const distance = 80;
+                return (
+                  <motion.div
+                    key={`${i}-${j}`}
+                    className="absolute w-1 h-1 rounded-full"
+                    style={{
+                      left: `${endX}%`,
+                      top: `${endY}%`,
+                      background: color,
+                      boxShadow: `0 0 8px ${color}`,
+                    }}
+                    initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+                    animate={{
+                      x: Math.cos(angle) * distance,
+                      y: Math.sin(angle) * distance,
+                      opacity: [0, 1, 0],
+                      scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      delay: i * 0.8 + 1.6,
+                      repeat: Infinity,
+                      repeatDelay: 9,
+                      ease: "easeOut",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
 
       {/* Ground plane */}
@@ -120,9 +143,8 @@ const FireworksFinale = () => {
           >
             <img
               src={coupleSilhouette}
-              alt="Couple silhouette embracing"
-              className="h-96 w-auto filter drop-shadow-[0_0_20px_rgba(255,0,0,0.3)]"
-              style={{ filter: 'brightness(0) saturate(100%)' }}
+              alt="Couple embracing"
+              className="h-96 w-auto drop-shadow-[0_0_30px_rgba(255,100,150,0.5)]"
             />
             
             {/* Heart particles during kiss */}
