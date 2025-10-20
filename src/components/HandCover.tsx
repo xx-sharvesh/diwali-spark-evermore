@@ -64,7 +64,7 @@ const HandCover = ({ onComplete }: HandCoverProps) => {
         }}
       >
         <p className="text-2xl md:text-3xl font-script text-white/80">
-          Close your eyes... ✨
+          wait for it.. ✨
         </p>
       </motion.div>
     </div>
