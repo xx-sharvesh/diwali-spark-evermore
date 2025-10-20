@@ -19,7 +19,9 @@ So, here I go. I came up with something comparatively smaller and, well, digital
 
 const PART_THREE = `Ammu,
 
-Everything I've said is true every word, every feeling. And still, there's more waiting in every tomorrow I see with you. I want to keep choosing you, again and again in the quiet mornings and in the stormy nights, in laughter and in silence. I want to be the home you lean on, the reason your days feel safer and brighter. I want to build little festivals for you not just every year, but every month, every single day.
+Everything I've said is true every word, every feeling. And still, there's more waiting in every tomorrow I see with you. I want to keep choosing you, again and again in the quiet mornings and in the stormy nights, in laughter and in silence. 
+
+I want to be the home you lean on, the reason your days feel safer and brighter. I want to build little festivals for you not just every year, but every month, every single day.
 
 So here I am, with all that I am, and all that I can give...`;
 
