@@ -89,7 +89,7 @@ const CelebrationInline = ({ onComplete }: CelebrationInlineProps) => {
             className="text-center"
           >
             <h1 className="text-8xl md:text-9xl font-script text-[hsl(var(--romantic-red))] mb-4">
-              yayyyyyyyyy we are marriedddd
+              yayyyyyy we are marriedddd !!!!!!!
             </h1>
             <motion.div
               animate={{
@@ -111,7 +111,7 @@ const CelebrationInline = ({ onComplete }: CelebrationInlineProps) => {
             className="text-center"
           >
             <p className="text-4xl font-script text-[hsl(var(--ink))] mb-8">
-              Hehe, and now we're married.
+              Hehe, and now that we're married (still too excited)
             </p>
           </motion.div>
         )}
